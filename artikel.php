@@ -1,17 +1,5 @@
 <?php
-// Koneksi ke database
-$host = "localhost"; // Sesuaikan dengan host Anda
-$username = "root"; // Sesuaikan dengan username database Anda
-$password = ""; // Sesuaikan dengan password database Anda
-$dbname = "akupeduli"; // Sesuaikan dengan nama database Anda
-
-$conn = new mysqli($host, $username, $password, $dbname);
-
-// Cek koneksi
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
-
+include 'config.php';
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
     echo '<div class="alert alert-success" role="alert">Artikel berhasil diperbarui!</div>';
 }
