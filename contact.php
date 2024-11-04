@@ -83,19 +83,9 @@ $conn->close();
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
                     <a href="index.html" class="nav-item nav-link">Beranda</a>
-                    <a href="about.html" class="nav-item nav-link">tentang kami</a>
+                    <a href="about.html" class="nav-item nav-link">Tentang kami</a>
                     <a href="classes.php" class="nav-item nav-link">Artikel</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu rounded-0 rounded-bottom border-0 m-0">
-                            <a href="facility.html" class="dropdown-item">apa sih Jenis bullying?</a>
-                            <a href="team.html" class="dropdown-item">Popular Teachers</a>
-                            <a href="call-to-action.html" class="dropdown-item">Become A Teachers</a>
-                            <a href="appointment.html" class="dropdown-item">Make Appointment</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                        </div>
-                    </div>
+                    <a href="essay.html" class="nav-item nav-link">Essay</a>
                     <a href="contact.php" class="nav-item nav-link active">Ceritaku</a>
                 </div>
                 <a href="" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Join Us<i
