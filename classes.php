@@ -59,7 +59,7 @@
                     <a href="about.html" class="nav-item nav-link">Tentang kami</a>
                     <a href="classes.php" class="nav-item nav-link active">Artikel</a>
                     <a href="essay.html" class="nav-item nav-link">Essay</a>
-                    <a href="contact.html" class="nav-item nav-link">Ceritaku</a>
+                    <a href="contact.php" class="nav-item nav-link">Ceritaku</a>
                 </div>
                 <a href="https://t.me/+yXTfaQVUr_g0OThl"
                     class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Join Us<i

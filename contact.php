@@ -1,3 +1,27 @@
+<?php
+// Sertakan file konfigurasi untuk koneksi database
+include 'config.php'; // Pastikan 'config.php' berisi koneksi ke database
+
+$alertMessage = ""; // Variabel untuk menyimpan pesan alert
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil data dari form
+    $nama = $conn->real_escape_string($_POST['nama']);
+    $cerita = $conn->real_escape_string($_POST['cerita']);
+    $created_at = date("Y-m-d H:i:s");
+
+    // Query untuk menyimpan data ke tabel `ceritaku`
+    $sql = "INSERT INTO ceritaku (nama, cerita, created_at) VALUES ('$nama', '$cerita', '$created_at')";
+
+    if ($conn->query($sql) === TRUE) {
+        $alertMessage = '<div class="alert alert-success" role="alert">Cerita berhasil dibagikan!</div>';
+    } else {
+        $alertMessage = '<div class="alert alert-danger" role="alert">Error: ' . $sql . '<br>' . $conn->error . '</div>';
+    }
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +93,7 @@
                             <a href="404.html" class="dropdown-item">404 Error</a>
                         </div>
                     </div>
-                    <a href="contact.html" class="nav-item nav-link active">Ceritaku</a>
+                    <a href="contact.php" class="nav-item nav-link active">Ceritaku</a>
                 </div>
                 <a href="" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Join Us<i
                         class="fa fa-arrow-right ms-3"></i></a>
@@ -98,42 +122,34 @@
             <div class="container">
                 <div class="bg-light rounded">
                     <div class="row g-0">
-                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                        <div class="col-lg-6">
                             <div class="h-100 d-flex flex-column justify-content-center p-5">
-                                <h1 class="mb-4">Bagikan Kisahmu (pengalaman tentang bullying dan cara bangkit
-                                    melawannya)</h1>
-                                <form
-                                    action="https://script.google.com/macros/s/AKfycbxQ23gvUJK0Eg5mNXv2g9zah2Rc9yXLdx6IZM97XWKCWtLsuHUh4oItptslyqURcTj-Gg/exec"
-                                    method="post">
-
+                                <h1 class="mb-4">Bagikan Kisahmu (pengalaman tentang bullying dan cara bangkit melawannya)</h1>
+                                <form action="contact.php" method="post">
+                                    <?php if (!empty($alertMessage)) echo $alertMessage; ?>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="nama"
-                                                placeholder="Nama kamu? (Nama Panggilan,  bisa Anonim) " name="nama">
-                                            <label for="nama">Nama kamu? (Nama Panggilan, bisa Anonim) </label>
+                                            <input type="text" class="form-control border-0" id="nama" placeholder="Nama kamu? (Nama Panggilan, bisa Anonim)" name="nama">
+                                            <label for="nama">Nama kamu? (Nama Panggilan, bisa Anonim)</label>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control border-0"
-                                                placeholder="Apa yang bikin kamu merasa dibully,boleh cerita? Dijamin aman deh 😊"
-                                                id="cerita" style="height: 100px" name="cerita"></textarea>
+                                            <textarea class="form-control border-0" placeholder="Apa yang bikin kamu merasa dibully, boleh cerita? Dijamin aman deh 😊" id="cerita" style="height: 100px" name="cerita" required></textarea>
                                             <label for="cerita">Bagi cerita pengalaman mu dong 😊</label>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="col-12">
-                                        <input type="submit" value="Simpan Data" class="btn btn-primary w-100 py-3">
+                                        <input type="submit" value="Kirim" class="btn btn-primary w-100 py-3">
                                     </div>
-
                                 </form>
                             </div>
                         </div>
-                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
+                        <div class="col-lg-6" style="min-height: 400px;">
                             <div class="position-relative h-100">
-                                <img class="position-absolute w-100 h-100 rounded" src="img/appointment.jpg"
-                                    style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100 rounded" src="img/appointment.jpg" style="object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -141,7 +157,51 @@
             </div>
         </div>
         <!-- Appointment End -->
+        <?php
+        // Sertakan file konfigurasi untuk koneksi database
+        include 'config.php'; // Pastikan 'config.php' berisi koneksi ke database
 
+        // Ambil data dari tabel `ceritaku`
+        $sql = "SELECT nama, cerita, created_at FROM ceritaku ORDER BY created_at DESC";
+        $result = $conn->query($sql);
+        ?>
+
+        <!-- Testimonial Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <h1 class="mb-3">Cerita Mereka</h1>
+                    <p>Mereka yang telah selesai dengan masa lalunya tidak pernah berhenti untuk membantu orang lain</p>
+                </div>
+                <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $nama = htmlspecialchars($row['nama']);
+                            $cerita = htmlspecialchars($row['cerita']);
+                            $created_at = date("d M Y", strtotime($row['created_at']));
+                            echo '
+                    <div class="testimonial-item bg-light rounded p-5">
+                        <p class="fs-5">' . substr($cerita, 0, 150) . '...</p>
+                        <div class="d-flex align-items-center bg-white me-n5" style="border-radius: 50px 0 0 50px;">
+                           
+                            <div class="ps-3">
+                                <h3 class="mb-1">' . $nama . '</h3>
+                                <span>' . $created_at . '</span>
+                            </div>
+                            <i class="fa fa-quote-right fa-3x text-primary ms-auto d-none d-sm-flex"></i>
+                        </div>
+                    </div>';
+                        }
+                    } else {
+                        echo '<p class="text-center">Belum ada cerita yang ditampilkan.</p>';
+                    }
+                    $conn->close();
+                    ?>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial End -->
 
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
