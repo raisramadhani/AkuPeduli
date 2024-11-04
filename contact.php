@@ -9,7 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama = $conn->real_escape_string($_POST['nama']);
     $cerita = $conn->real_escape_string($_POST['cerita']);
     $created_at = date("Y-m-d H:i:s");
-
+    // Jika nama kosong, set nama menjadi "Anonim"
+    if (empty($nama)) {
+        $nama = "Anonim";
+    }
     // Query untuk menyimpan data ke tabel `ceritaku`
     $sql = "INSERT INTO ceritaku (nama, cerita, created_at) VALUES ('$nama', '$cerita', '$created_at')";
 
